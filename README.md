@@ -33,7 +33,7 @@ Diabetes-Tracker-App/
 └── README.md       # Documentación del proyecto
 ```
 
-🛠️ Tecnologías y Librerías
+## 🛠️ Tecnologías y Librerías
 Python (v3.11+)
 
 python-telegram-bot (Interacción con la API de Telegram)
