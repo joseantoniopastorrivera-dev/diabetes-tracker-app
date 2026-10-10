@@ -1,6 +1,7 @@
 # 🤖 Federico - Asistente de Gestión de Diabetes (Multimodal)
 
-Federico es un asistente inteligente diseñado para Telegram que facilita el seguimiento y registro diario de datos clínicos en personas con diabetes. Utiliza las capacidades multimodales de la API de Google Gemini para procesar entradas en lenguaje natural a través de **texto, imágenes (capturas de sensores de glucosa) y notas de voz**, estructurando toda la información de forma automática en una base de datos local SQLite.
+
+Federico (activo en Telegram como **@FedericoParaMarti**) es un asistente inteligente diseñado específicamente para facilitar el seguimiento y registro diario de datos clínicos de mi novia. Utiliza las capacidades multimodales de la API de Google Gemini para procesar entradas en lenguaje natural a través de **texto, imágenes (capturas de sensores de glucosa) y notas de voz**, estructurando toda la información de forma automática en una base de datos local SQLite.
 
 ---
 
