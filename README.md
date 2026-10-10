@@ -1,29 +1,65 @@
-# 🩺 Diabetes Tracker App
+🤖 Federico - Asistente de Gestión de Diabetes (Multimodal)
+Federico es un asistente inteligente diseñado para Telegram que facilita el seguimiento y registro diario de datos clínicos en personas con diabetes. Utiliza las capacidades multimodales de la API de Google Gemini para procesar entradas en lenguaje natural a través de texto, imágenes (capturas de sensores de glucosa) y notas de voz, estructurando toda la información de forma automática en una base de datos local SQLite.
 
-Mobile health application for glucose monitoring, dietary tracking, and diabetes management / Aplicación móvil desarrollada para el seguimiento de niveles de glucosa, control nutricional, registro de insulina y gestión diaria para pacientes con diabetes.
+🚀 Características Principales
+Entrada Multimodal: Capacidad de interpretar mensajes de texto, audios de voz (notas de Telegram) y capturas de pantalla de gráficos de glucemia continua.
 
----
+Inteligencia Artificial (Gemini): Extracción precisa de variables clínicas complejas mediante el SDK oficial de Google GenAI (gemini-3.8-flash).
 
-## 🗂️ Estructura del Repositorio
+Contexto Temporal Inteligente: Inyección de marcas de tiempo del sistema y de los mensajes de Telegram para traducir expresiones relativas ("hace media hora") en horas exactas (HH:MM).
 
-* **`app/`**: Código fuente de la aplicación móvil (vistas, lógica de negocio y arquitectura).
-* **`docs/`**: Documentación técnica, diagramas de diseño y especificaciones de requisitos.
-* **`assets/`**: Recursos gráficos, iconos y elementos multimedia de la interfaz de usuario.
+Estructuración de Datos: Registro automático de:
 
----
+Niveles de glucemia actual y tendencias gráficas.
 
-## 📚 Características Principales
+Insulina rápida y basal.
 
-1. **Registro de Glucosa**: Seguimiento histórico de los niveles de azúcar en sangre con marcas de tiempo.
-2. **Control Nutricional**: Registro de ingesta de carbohidratos y comidas asociadas a las mediciones.
-3. **Gestión de Medicación**: Control de dosis de insulina y recordatorios personalizados.
-4. **Informes y Estadísticas**: Visualización de tendencias y métricas de salud para el control clínico.
+Hidratos de carbono (HC) consumidos y desglose de comidas con sus respectivas horas.
 
----
+Episodios de hipoglucemia con marca temporal.
 
-## 🛠️ Tecnologías y Herramientas
-* **Plataforma**: Desarrollo de aplicaciones móviles.
-* **Control de Versiones**: Git / GitHub.
+Ejercicio físico, síntomas y notas contextuales (estrés, ciclo menstrual, etc.).
 
----
-&copy; 2025-2026 José Antonio Pastor Rivera | IES Isidra de Guzmán (DAM)
+Almacenamiento Local Seguro: Persistencia de datos estructurados mediante SQLite.
+
+📂 Estructura del Proyecto
+Diabetes-Tracker-App/
+│
+├── bot.py          # Lógica principal del bot de Telegram (polling, manejadores de texto/foto/voz)
+├── analyzer.py     # Módulo de integración con Gemini API y prompts del sistema estructurados
+├── database.py     # Gestión de la base de datos SQLite y esquemas de guardado
+├── .env            # Variables de entorno y credenciales (Excluido del control de versiones)
+├── .gitignore      # Archivos ignorados por Git (seguridad para credenciales y DB)
+└── README.md       # Documentación del proyecto
+
+🛠️ Tecnologías y Librerías
+Python (v3.11+)
+
+python-telegram-bot (Interacción con la API de Telegram)
+
+google-genai (SDK oficial para modelos Gemini)
+
+SQLite (Base de datos embebida)
+
+python-dotenv (Gestión segura de variables de entorno)
+
+⚙️ Configuración e Instalación Local
+1. Clona el repositorio:
+git clone [https://github.com/tu-usuario/diabetes-tracker-bot.git](https://github.com/tu-usuario/diabetes-tracker-bot.git)
+cd Diabetes-Tracker-App
+
+2. Crea y activa un entorno virtual (recomendado):
+python -m venv venv
+# En Windows (Git Bash):
+source venv/Scripts/activate
+
+3. Instala las dependencias:
+pip install python-telegram-bot google-genai python-dotenv
+
+4. Configura tus credenciales:
+Crea un archivo llamado .env en la raíz del proyecto y añade tus claves secretas:
+TELEGRAM_BOT_TOKEN=tu_token_de_telegram_aqui
+GEMINI_API_KEY=tu_api_key_de_gemini_aqui
+
+5. Ejecuta el bot:
+python bot.py
