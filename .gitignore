@@ -1,0 +1,13 @@
+# Archivos de entorno y credenciales (¡Muy importante!)
+.env
+
+# Base de datos local de SQLite
+*.db
+
+# Caché de Python
+__pycache__/
+*.pyc
+
+# Entornos virtuales si los hubiera
+venv/
+env/
