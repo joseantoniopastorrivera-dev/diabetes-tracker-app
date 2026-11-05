@@ -5,6 +5,10 @@ Bot personal que registra datos de diabetes (glucemia, comidas, insulina) a part
 ## Arquitectura (v2)
 Capas: `modelos.py` → `datos/repositorio.py` (único sitio con SQL) → `ia/` (interfaz `Extractor` + `gemini.py`) → `servicios.py` (lógica, sin Telegram) → `telegram_bot.py` (canal) → `bot.py` (punto de entrada). El porqué de cada decisión está en `docs/decisiones.md`; añade ahí las nuevas.
 
+## Fases
+- Las fases y su estado están en `docs/hoja-de-ruta.md`.
+- Cada fase se arranca con la skill `preparar-fase` y se cierra con `plan-pruebas-fase` (en `.claude/skills/`).
+
 ## Ejecutar y probar
 - Entorno: `.venv` con `pip install -r requirements.txt`.
 - `.env`: `TELEGRAM_BOT_TOKEN`, `GEMINI_API_KEY` y `ALLOWED_USER_IDS` (obligatorias); `GEMINI_MODEL` y `DB_PATH` (opcionales). Plantilla en `.env.example`.
@@ -15,7 +19,7 @@ Capas: `modelos.py` → `datos/repositorio.py` (único sitio con SQL) → `ia/` 
 - No es un producto sanitario (MDR): nada de recomendar dosis, tratamientos ni alertas terapéuticas. Los resúmenes son solo descriptivos.
 
 ## Commits
-- Un commit por cada cambio pequeño, en español: `tipo(ámbito): descripción` (ámbitos: config, modelo, bd, ia, servicios, bot, seguridad).
+- Un commit por cada cambio pequeño, en español: `tipo(ámbito): descripción` (ámbitos: config, modelo, bd, ia, servicios, bot, seguridad, skills).
 - Sin `Co-Authored-By` ni líneas extra.
 - Solo hacer commit si `pytest` pasa.
 
