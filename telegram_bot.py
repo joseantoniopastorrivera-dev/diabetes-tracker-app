@@ -4,8 +4,8 @@ from datetime import date, datetime
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.constants import ChatAction, ParseMode
-from telegram.ext import (Application, CallbackQueryHandler, CommandHandler, ContextTypes,
-                          MessageHandler, filters)
+from telegram.ext import (Application, ApplicationHandlerStop, CallbackQueryHandler, CommandHandler,
+                          ContextTypes, MessageHandler, TypeHandler, filters)
 
 from config import ZONA_HORARIA, Config
 from ia.extractor import Entrada, ErrorExtraccion
@@ -36,14 +36,42 @@ async def _descargar(context: ContextTypes.DEFAULT_TYPE, file_id: str) -> bytes:
     return bytes(await archivo.download_as_bytearray())
 
 
+# ---------- Lista blanca ----------
+
+async def solo_permitidos(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    """Se ejecuta ANTES que cualquier otro handler (grupo -1). Si el usuario no está en la
+    lista blanca, contesta "bot privado" y corta la cadena con ApplicationHandlerStop."""
+    usuario = update.effective_user
+    if usuario is not None and usuario.id in context.bot_data["permitidos"]:
+        return
+    # Se registra el ID (no el contenido) para poder añadirlo a ALLOWED_USER_IDS si es alguien de confianza.
+    log.warning("Acceso denegado al usuario id=%s", usuario.id if usuario else "desconocido")
+    if update.callback_query:
+        await update.callback_query.answer("🔒 Este bot es privado.", show_alert=True)
+    elif update.effective_message:
+        await update.effective_message.reply_text("🔒 Este bot es privado.")
+    raise ApplicationHandlerStop
+
+
 # ---------- Comandos ----------
 
+BIENVENIDA = (
+    "¡Hola! Soy Federico, tu asistente para apuntar el día a día de la diabetes.\n\n"
+    "Escríbeme, mándame una nota de voz o una captura del sensor y apunto glucosa, "
+    "insulina, hidratos y comidas. Antes de guardar nada te enseño lo que he entendido "
+    "para que lo confirmes.\n\n"
+    "🤖 Aviso: soy un sistema de inteligencia artificial y me puedo equivocar al leer los datos. "
+    "Por eso siempre te pido confirmación.\n"
+    "🩺 Soy una herramienta de registro y apoyo. No sustituyo el criterio de tu equipo médico "
+    "y nunca te recomendaré dosis ni tratamientos.\n"
+    "🔐 Tus registros se guardan en el servidor de Federico. A la IA (Google Gemini) solo se envía "
+    "el mensaje que me mandas en cada momento, para extraer los datos.\n\n"
+    "Escribe /ayuda para ver lo que sé hacer."
+)
+
+
 async def cmd_start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    await update.effective_message.reply_text(
-        "¡Hola! Soy Federico.\n\n"
-        "Escríbeme, mándame una nota de voz o una captura del sensor y apunto glucosa, "
-        "insulina, hidratos y comidas. Antes de guardar nada te pediré que lo confirmes."
-    )
+    await update.effective_message.reply_text(BIENVENIDA)
 
 
 AYUDA = (
@@ -178,6 +206,10 @@ async def registrar_error(update: object, context: ContextTypes.DEFAULT_TYPE) ->
 def crear_aplicacion(config: Config, servicio: ServicioRegistros) -> Application:
     app = Application.builder().token(config.telegram_token).build()
     app.bot_data["servicio"] = servicio   # bot_data: compartido por todos los handlers
+    app.bot_data["permitidos"] = config.usuarios_permitidos
+
+    # Grupo -1: se procesa antes que el grupo 0 (el de por defecto) para cualquier tipo de Update.
+    app.add_handler(TypeHandler(Update, solo_permitidos), group=-1)
 
     app.add_handler(CommandHandler("start", cmd_start))
     app.add_handler(CommandHandler("cancelar", cmd_cancelar))
