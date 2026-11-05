@@ -1,19 +1,27 @@
 # Archivos de entorno y credenciales (¡Muy importante!)
 .env
 
-# Base de datos local de SQLite
+# Base de datos de Federico: datos de salud reales de Marta. NUNCA al repo (es público).
+diabetes_tracker.db
+# Cualquier otra BD SQLite y sus ficheros temporales, que también contienen datos
 *.db
+*.sqlite
+*.sqlite3
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Copias de seguridad de la BD
+backups/
 
 # Caché de Python
 __pycache__/
 *.pyc
 
-# Entornos virtuales si los hubiera
+# Entornos virtuales
 venv/
-env/.venv/
-
-# Copias de seguridad de la BD (datos de salud reales: nunca al repo)
-backups/
+env/
+.venv/
 
 # Caché de pytest
 .pytest_cache/
