@@ -1,0 +1,10 @@
+python-telegram-bot==22.8
+google-genai==2.29.0
+python-dotenv==1.2.4
+pydantic==2.14.0
+# Windows no trae la base de datos de zonas horarias; zoneinfo la necesita
+tzdata>=2026.6
+
+# Solo para desarrollo
+pytest>=9.2
+pytest-asyncio>=1.4
