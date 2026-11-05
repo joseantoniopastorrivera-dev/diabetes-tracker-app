@@ -1,72 +1,71 @@
-# 🤖 Federico - Asistente de Gestión de Diabetes (Multimodal)
+# 🤖 Federico: asistente de registro para la diabetes (v2)
 
+Federico es un bot de Telegram que registra el día a día de una persona con diabetes a partir de **texto, notas de voz o capturas del sensor de glucosa**. Usa la IA multimodal de Google Gemini para extraer los datos y **siempre pide confirmación antes de guardarlos**.
 
-Federico (activo en Telegram como **@FedericoParaMarti**) es un asistente inteligente diseñado específicamente para facilitar el seguimiento y registro diario de datos clínicos de mi novia. Utiliza las capacidades multimodales de la API de Google Gemini para procesar entradas en lenguaje natural a través de **texto, imágenes (capturas de sensores de glucosa) y notas de voz**, estructurando toda la información de forma automática en una base de datos local SQLite.
+Es el prototipo funcional del proyecto emprendedor *Diabetes Tracker App*.
 
----
-
-## 🚀 Características Principales
-
-- **Entrada Multimodal:** Capacidad de interpretar mensajes de texto, audios de voz (notas de Telegram) y capturas de pantalla de gráficos de glucemia continua.
-- **Inteligencia Artificial (Gemini):** Extracción precisa de variables clínicas complejas mediante el SDK oficial de Google GenAI (`gemini-3.8-flash`).
-- **Contexto Temporal Inteligente:** Inyección de marcas de tiempo del sistema y de los mensajes de Telegram para traducir expresiones relativas ("hace media hora") en horas exactas (`HH:MM`).
-- **Estructuración de Datos:** Registro automático de:
-  - Niveles de glucemia actual y tendencias gráficas.
-  - Insulina rápida y basal.
-  - Hidratos de carbono (HC) consumidos y desglose de comidas con sus respectivas horas.
-  - Episodios de hipoglucemia con marca temporal.
-  - Ejercicio físico, síntomas y notas contextuales (estrés, ciclo menstrual, etc.).
-- **Almacenamiento Local Seguro:** Persistencia de datos estructurados mediante SQLite.
+> Herramienta de registro y apoyo. No sustituye el criterio del equipo médico y no recomienda dosis ni tratamientos.
 
 ---
 
-## 📂 Estructura del Proyecto
+## 🚀 Qué hace
+
+- **Registro multimodal:** texto, notas de voz y capturas del sensor.
+- **Confirmación obligatoria:** muestra lo que ha entendido con tres botones: ✅ Guardar, ✏️ Corregir o ❌ Descartar. Para corregir basta con decir "eran 3 de rápida".
+- **Datos que guarda:** glucosa, insulina rápida y basal, hidratos, comidas con hora, ejercicio, hipoglucemias, síntomas, notas y los puntos de la gráfica del sensor.
+- **Avisos de lectura dudosa:** si un valor no es plausible (por ejemplo, 900 mg/dL), pide revisarlo.
+- **Resúmenes descriptivos:** `/hoy` y `/semana` (totales, glucosa media, tiempo en rango 70-180 e hipoglucemias).
+- **`/deshacer`:** anula el último registro guardado sin borrarlo.
+- **Privado:** solo responde a los IDs de Telegram de la lista blanca.
+
+## 📂 Estructura
 
 ```
 Diabetes-Tracker-App/
-│
-├── bot.py          # Lógica principal del bot de Telegram (polling, manejadores de texto/foto/voz)
-├── analyzer.py     # Módulo de integración con Gemini API y prompts del sistema estructurados
-├── database.py     # Gestión de la base de datos SQLite y esquemas de guardado
-├── .env            # Variables de entorno y credenciales (Excluido del control de versiones)
-├── .gitignore      # Archivos ignorados por Git (seguridad para credenciales y DB)
-└── README.md       # Documentación del proyecto
+├── bot.py              # Punto de entrada: monta las capas y arranca
+├── config.py           # Lectura del .env, zona horaria y lista blanca
+├── modelos.py          # Registro, estados, Resumen y avisos de rango
+├── datos/
+│   └── repositorio.py  # SQLite y migraciones (PRAGMA user_version)
+├── ia/
+│   ├── extractor.py    # Interfaz Extractor y esquema DatosExtraidos (Pydantic)
+│   └── gemini.py       # Implementación con Google Gemini (asíncrona)
+├── servicios.py        # Lógica: analizar, confirmar, corregir, deshacer, resúmenes
+├── presentacion.py     # Formato HTML de los mensajes
+├── telegram_bot.py     # Handlers, botones, comandos y lista blanca
+├── tests/              # pytest (sin red ni API: usa un extractor falso)
+└── docs/decisiones.md  # Por qué se hizo cada cosa
 ```
 
-## 🛠️ Tecnologías y Librerías
-Python (v3.11+)
+## 🛠️ Tecnologías
 
-python-telegram-bot (Interacción con la API de Telegram)
+Python 3.13 · python-telegram-bot 22 · google-genai · Pydantic · SQLite · pytest
 
-google-genai (SDK oficial para modelos Gemini)
+## ⚙️ Instalación
 
-SQLite (Base de datos embebida)
+1. Clona el repositorio y crea el entorno virtual:
+   ```bash
+   git clone https://github.com/joseantoniopastorrivera-dev/Diabetes-Tracker-App.git
+   cd Diabetes-Tracker-App
+   python -m venv .venv
+   source .venv/Scripts/activate   # Windows (Git Bash)
+   pip install -r requirements.txt
+   ```
+2. Copia `.env.example` como `.env` y rellénalo. `ALLOWED_USER_IDS` es obligatorio: sin él, el bot no arranca. Para saber tu ID, escribe a @userinfobot. Si alguien no autorizado escribe al bot, su ID aparece en el log como "Acceso denegado".
+3. Arranca el bot:
+   ```bash
+   python bot.py
+   ```
+   La primera vez migra automáticamente una base de datos de la v1, conservando sus registros. Haz antes una copia de seguridad.
 
-python-dotenv (Gestión segura de variables de entorno)
+## 🧪 Tests
 
-## ⚙️ Configuración e Instalación Local
-1. Clona el repositorio:
+```bash
+python -m pytest
 ```
-git clone [https://github.com/joseantoniopastorrivera-creator/Diabetes-Tracker-App.git](https://github.com/joseantoniopastorrivera-creator/Diabetes-Tracker-App.git)
-cd Diabetes-Tracker-App
-```
-2. Crea y activa un entorno virtual (recomendado):
- ```
-python -m venv venv
-En Windows (Git Bash):
-source venv/Scripts/activate
-```
-3. Instala las dependencias:
-```
-pip install python-telegram-bot google-genai python-dotenv
-```
-4. Configura tus credenciales:
-Crea un archivo llamado .env en la raíz del proyecto y añade tus claves secretas:
-```
-TELEGRAM_BOT_TOKEN=tu_token_de_telegram_aqui
-GEMINI_API_KEY=tu_api_key_de_gemini_aqui
-```
-5. Ejecuta el bot:
-```
-python bot.py
-```
+
+## 🔐 Privacidad
+
+- La base de datos (`*.db`), las copias (`backups/`) y el `.env` no se suben nunca al repositorio.
+- A Gemini solo se envía el mensaje que se está procesando.
+- Los logs no contienen datos de salud ni el token del bot.
