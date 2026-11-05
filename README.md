@@ -45,7 +45,7 @@ Python 3.13 · python-telegram-bot 22 · google-genai · Pydantic · SQLite · p
 
 1. Clona el repositorio y crea el entorno virtual:
    ```bash
-   git clone https://github.com/joseantoniopastorrivera-dev/Diabetes-Tracker-App.git
+   git clone https://github.com/joseantoniopastorrivera-dev/diabetes-tracker-app.git
    cd Diabetes-Tracker-App
    python -m venv .venv
    source .venv/Scripts/activate   # Windows (Git Bash)
