@@ -66,3 +66,59 @@ def avisos_de_rango(registro: Registro) -> list[str]:
         if not (minimo <= lectura.glucosa <= maximo):
             avisos.append(f"lectura de la gráfica {lectura.hora} = {lectura.glucosa} parece errónea")
     return avisos
+
+
+# Rango 70-180 mg/dL: el del consenso internacional de tiempo en rango (TIR).
+# Se usa SOLO para describir el pasado, nunca para recomendar nada.
+RANGO_OBJETIVO = (70, 180)
+
+
+@dataclass
+class Resumen:
+    """Estadística descriptiva de los registros confirmados de un periodo."""
+    desde: datetime
+    hasta: datetime
+    registros: list[Registro]
+
+    @property
+    def glucosas(self) -> list[int]:
+        # Solo la glucosa principal de cada registro: la gráfica de una captura suele
+        # repetir ese mismo valor y contaríamos lecturas dos veces.
+        return [r.glucosa for r in self.registros if r.glucosa is not None]
+
+    def _suma(self, campo: str) -> float:
+        return sum(getattr(r, campo) for r in self.registros if getattr(r, campo) is not None)
+
+    @property
+    def total_rapida(self) -> float:
+        return self._suma("insulina_rapida")
+
+    @property
+    def total_basal(self) -> float:
+        return self._suma("insulina_basal")
+
+    @property
+    def total_hidratos(self) -> float:
+        return self._suma("hidratos_hc")
+
+    @property
+    def media_glucosa(self) -> float | None:
+        return sum(self.glucosas) / len(self.glucosas) if self.glucosas else None
+
+    @property
+    def tiempo_en_rango(self) -> float | None:
+        """% de lecturas dentro de 70-180. Aproximado: son lecturas sueltas, no el sensor continuo."""
+        if not self.glucosas:
+            return None
+        minimo, maximo = RANGO_OBJETIVO
+        return 100 * sum(minimo <= g <= maximo for g in self.glucosas) / len(self.glucosas)
+
+    @property
+    def hipoglucemias(self) -> int:
+        """Registros con una bajada anotada o con glucosa por debajo de 70."""
+        return sum(r.hipoglucemia is not None or (r.glucosa is not None and r.glucosa < RANGO_OBJETIVO[0])
+                   for r in self.registros)
+
+    @property
+    def dias_con_registro(self) -> int:
+        return len({r.fecha_hora.date() for r in self.registros})
