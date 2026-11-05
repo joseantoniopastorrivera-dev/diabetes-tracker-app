@@ -70,21 +70,17 @@ def _totales(resumen: Resumen) -> list[str]:
 
 def texto_dia(resumen: Resumen) -> str:
     if not resumen.registros:
-        return f"📅 <b>{resumen.desde:%d/%m}</b>
-Todavía no hay registros guardados hoy."
+        return f"📅 <b>{resumen.desde:%d/%m}</b>\nTodavía no hay registros guardados ese día."
     lineas = [f"📅 <b>{resumen.desde:%d/%m}</b> · {len(resumen.registros)} registros", ""]
     lineas += [_linea_corta(r) for r in resumen.registros]
-    return "
-".join(lineas + [""] + _totales(resumen))
+    return "\n".join(lineas + [""] + _totales(resumen))
 
 
 def texto_semana(resumen: Resumen) -> str:
     cabecera = f"📊 <b>Últimos 7 días</b> ({resumen.desde:%d/%m} - {resumen.hasta - timedelta(days=1):%d/%m})"
     if not resumen.registros:
-        return cabecera + "
-No hay registros guardados en estos días."
+        return cabecera + "\nNo hay registros guardados en estos días."
     lineas = [cabecera, f"{len(resumen.registros)} registros en {resumen.dias_con_registro} días", ""]
     lineas += _totales(resumen)
     lineas += ["", "<i>Datos descriptivos de tus registros. No sustituyen el criterio de tu equipo médico.</i>"]
-    return "
-".join(lineas)
+    return "\n".join(lineas)
