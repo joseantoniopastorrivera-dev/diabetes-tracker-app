@@ -105,3 +105,27 @@ async def test_deshacer_anula_el_ultimo_confirmado(repo):
 def test_deshacer_sin_nada(repo):
     with pytest.raises(ErrorOperacion):
         servicio(repo).deshacer(MARTA)
+
+
+async def test_resumen_dia_y_semana_solo_cuentan_confirmados(repo):
+    s = servicio(repo, glucosa=60, insulina_rapida=2.0, hidratos_hc=30)
+    hoy = await s.analizar(MARTA, None, Entrada(momento=MOMENTO_UTC, texto="a"))
+    s.extractor.respuesta = DatosExtraidos(glucosa=150, insulina_rapida=4.0)
+    hace_3_dias = await s.analizar(MARTA, None, Entrada(momento=datetime(2026, 11, 2, 9, tzinfo=timezone.utc), texto="b"))
+    hace_8_dias = await s.analizar(MARTA, None, Entrada(momento=datetime(2026, 10, 28, 9, tzinfo=timezone.utc), texto="c"))
+    sin_confirmar = await s.analizar(MARTA, None, Entrada(momento=MOMENTO_UTC, texto="d"))
+    for r in (hoy, hace_3_dias, hace_8_dias):
+        s.confirmar(MARTA, r.id)
+
+    dia = s.resumen_dia(MARTA, datetime(2026, 11, 5).date())
+    assert [r.id for r in dia.registros] == [hoy.id]
+    assert dia.hipoglucemias == 1          # 60 < 70
+
+    semana = s.resumen_semana(MARTA, datetime(2026, 11, 5).date())
+    assert {r.id for r in semana.registros} == {hoy.id, hace_3_dias.id}
+    assert semana.total_rapida == 6.0
+    assert semana.total_hidratos == 30
+    assert semana.media_glucosa == 105
+    assert semana.tiempo_en_rango == 50.0  # 150 dentro, 60 fuera
+    assert semana.dias_con_registro == 2
+    assert sin_confirmar.id not in {r.id for r in semana.registros}
