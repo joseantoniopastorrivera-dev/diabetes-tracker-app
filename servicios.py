@@ -2,12 +2,12 @@
 
 Así, la futura API o la app móvil podrán reutilizar exactamente estas reglas.
 """
-from datetime import datetime
+from datetime import date, datetime, time, timedelta
 
 from config import ZONA_HORARIA
 from datos.repositorio import Repositorio
 from ia.extractor import DatosExtraidos, Entrada, Extractor, LecturaIA
-from modelos import Estado, LecturaTendencia, Registro
+from modelos import Estado, LecturaTendencia, Registro, Resumen
 
 
 class ErrorOperacion(Exception):
@@ -93,6 +93,18 @@ class ServicioRegistros:
         self.repo.cambiar_estado(registro.id, Estado.ANULADO)
         registro.estado = Estado.ANULADO
         return registro
+
+    def resumen_dia(self, usuario_id: int, dia: date) -> Resumen:
+        desde = datetime.combine(dia, time.min)
+        return self._resumen(usuario_id, desde, desde + timedelta(days=1))
+
+    def resumen_semana(self, usuario_id: int, hoy: date) -> Resumen:
+        """Los últimos 7 días, hoy incluido."""
+        desde = datetime.combine(hoy - timedelta(days=6), time.min)
+        return self._resumen(usuario_id, desde, datetime.combine(hoy + timedelta(days=1), time.min))
+
+    def _resumen(self, usuario_id: int, desde: datetime, hasta: datetime) -> Resumen:
+        return Resumen(desde, hasta, self.repo.confirmados_entre(usuario_id, desde, hasta))
 
     def obtener_pendiente(self, usuario_id: int, registro_id: int) -> Registro:
         """Comprueba que el registro existe, es de esta usuaria y sigue pendiente.
