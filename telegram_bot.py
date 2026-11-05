@@ -1,5 +1,6 @@
 """Adaptador de Telegram: traduce mensajes y botones a llamadas al servicio."""
 import logging
+from datetime import date, datetime
 
 from telegram import InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.constants import ChatAction, ParseMode
@@ -9,7 +10,7 @@ from telegram.ext import (Application, CallbackQueryHandler, CommandHandler, Con
 from config import ZONA_HORARIA, Config
 from ia.extractor import Entrada, ErrorExtraccion
 from modelos import avisos_de_rango
-from presentacion import texto_registro
+from presentacion import texto_dia, texto_registro, texto_semana
 from servicios import ErrorOperacion, ServicioRegistros
 
 log = logging.getLogger(__name__)
@@ -42,6 +43,46 @@ async def cmd_start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         "¡Hola! Soy Federico.\n\n"
         "Escríbeme, mándame una nota de voz o una captura del sensor y apunto glucosa, "
         "insulina, hidratos y comidas. Antes de guardar nada te pediré que lo confirmes."
+    )
+
+
+AYUDA = (
+    "Puedes mandarme texto, notas de voz o capturas del sensor. Te enseño lo que he entendido "
+    "y lo guardas con ✅, lo corriges con ✏️ o lo descartas con ❌.\n\n"
+    "/hoy — registros y totales de hoy\n"
+    "/semana — resumen de los últimos 7 días\n"
+    "/deshacer — anula el último registro guardado\n"
+    "/cancelar — sale del modo corrección\n"
+    "/ayuda — este mensaje"
+)
+
+
+async def cmd_ayuda(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    await update.effective_message.reply_text(AYUDA)
+
+
+def _hoy() -> date:
+    return datetime.now(ZONA_HORARIA).date()   # "hoy" en España, aunque el servidor esté en otra zona
+
+
+async def cmd_hoy(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    resumen = _servicio(context).resumen_dia(update.effective_user.id, _hoy())
+    await update.effective_message.reply_text(texto_dia(resumen), parse_mode=ParseMode.HTML)
+
+
+async def cmd_semana(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    resumen = _servicio(context).resumen_semana(update.effective_user.id, _hoy())
+    await update.effective_message.reply_text(texto_semana(resumen), parse_mode=ParseMode.HTML)
+
+
+async def cmd_deshacer(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
+    try:
+        registro = _servicio(context).deshacer(update.effective_user.id)
+    except ErrorOperacion as e:
+        await update.effective_message.reply_text(str(e))
+        return
+    await update.effective_message.reply_text(
+        "↩️ He anulado este registro:\n\n" + texto_registro(registro), parse_mode=ParseMode.HTML
     )
 
 
@@ -140,6 +181,10 @@ def crear_aplicacion(config: Config, servicio: ServicioRegistros) -> Application
 
     app.add_handler(CommandHandler("start", cmd_start))
     app.add_handler(CommandHandler("cancelar", cmd_cancelar))
+    app.add_handler(CommandHandler("ayuda", cmd_ayuda))
+    app.add_handler(CommandHandler("hoy", cmd_hoy))
+    app.add_handler(CommandHandler("semana", cmd_semana))
+    app.add_handler(CommandHandler("deshacer", cmd_deshacer))
     app.add_handler(MessageHandler((filters.TEXT | filters.PHOTO | filters.VOICE) & ~filters.COMMAND, recibir_mensaje))
     app.add_handler(CallbackQueryHandler(pulsar_boton))
     app.add_error_handler(registrar_error)
