@@ -10,4 +10,10 @@ __pycache__/
 
 # Entornos virtuales si los hubiera
 venv/
-env/
+env/.venv/
+
+# Copias de seguridad de la BD (datos de salud reales: nunca al repo)
+backups/
+
+# Caché de pytest
+.pytest_cache/
