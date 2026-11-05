@@ -7,7 +7,21 @@ Capas: `modelos.py` → `datos/repositorio.py` (único sitio con SQL) → `ia/` 
 
 ## Fases
 - Las fases y su estado están en `docs/hoja-de-ruta.md`.
-- Cada fase se arranca con la skill `preparar-fase` y se cierra con `plan-pruebas-fase` (en `.claude/skills/`).
+- Cada fase se arranca con la skill `preparar-fase` y se cierra con `plan-pruebas-fase`. Vienen del plugin `desarrollo-por-fases` del repo [claude-code-skills](https://github.com/joseantoniopastorrivera-dev/claude-code-skills), activado en `.claude/settings.json`.
+
+## Skills de fases
+Datos que usan `preparar-fase` y `plan-pruebas-fase` en este proyecto:
+- Hoja de ruta: `docs/hoja-de-ruta.md`. Decisiones: `docs/decisiones.md`.
+- Rama de cada fase: `v2-faseN`.
+- Copia de seguridad antes de empezar, **sin abrir la BD**: `cp diabetes_tracker.db backups/diabetes_tracker_<AAAA-MM-DD>.db`.
+- Dependencias: `.venv/Scripts/python -m pip install -r requirements.txt`. Tests: `.venv/Scripts/python -m pytest`.
+- Capas, en este orden: modelos → datos → ia → servicios → telegram_bot. La lógica nunca va en `telegram_bot.py`.
+- Versión de esquema esperada: `len(MIGRACIONES)` en `datos/repositorio.py` (`PRAGMA user_version`). Se lee del código, nunca de la BD real.
+- Comprobación extra del plan: **MDR**. Si una función calcula dosis, recomienda tratamiento o alerta para decidir terapia, sale de la fase (ver "Límites del producto").
+- Plantilla del plan de pruebas: `docs/plantilla-plan-pruebas.md`.
+- Persona que prueba: Marta, paciente cero (diabetes tipo 1), por Telegram. Ronda 1 con `DB_PATH=pruebas_marta.db` y ronda 2 con la BD real.
+- Ningún caso de prueba puede pedir a la app dosis ni consejo médico, ni esperar que los dé.
+- Autor del PDF: José Antonio Pastor Rivera.
 
 ## Ejecutar y probar
 - Entorno: `.venv` con `pip install -r requirements.txt`.
