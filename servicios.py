@@ -64,7 +64,7 @@ class ServicioRegistros:
 
     async def corregir(self, usuario_id: int, registro_id: int, entrada: Entrada) -> Registro:
         """Rehace un registro pendiente combinando lo anterior con la corrección."""
-        registro = self._pendiente_propio(usuario_id, registro_id)
+        registro = self.obtener_pendiente(usuario_id, registro_id)
         entrada.corrige_a = datos_de(registro)
         datos = await self.extractor.extraer(entrada)
         aplicar_datos(registro, datos)
@@ -74,13 +74,13 @@ class ServicioRegistros:
         return registro
 
     def confirmar(self, usuario_id: int, registro_id: int) -> Registro:
-        registro = self._pendiente_propio(usuario_id, registro_id)
+        registro = self.obtener_pendiente(usuario_id, registro_id)
         self.repo.cambiar_estado(registro_id, Estado.CONFIRMADO)
         registro.estado = Estado.CONFIRMADO
         return registro
 
     def descartar(self, usuario_id: int, registro_id: int) -> Registro:
-        registro = self._pendiente_propio(usuario_id, registro_id)
+        registro = self.obtener_pendiente(usuario_id, registro_id)
         self.repo.cambiar_estado(registro_id, Estado.DESCARTADO)
         registro.estado = Estado.DESCARTADO
         return registro
@@ -94,7 +94,7 @@ class ServicioRegistros:
         registro.estado = Estado.ANULADO
         return registro
 
-    def _pendiente_propio(self, usuario_id: int, registro_id: int) -> Registro:
+    def obtener_pendiente(self, usuario_id: int, registro_id: int) -> Registro:
         """Comprueba que el registro existe, es de esta usuaria y sigue pendiente.
 
         También evita el doble clic: si ya se confirmó, el segundo intento da error en vez de repetir.
