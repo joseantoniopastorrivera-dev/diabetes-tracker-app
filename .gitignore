@@ -25,3 +25,6 @@ env/
 
 # Caché de pytest
 .pytest_cache/
+
+# Guías de defensa: material personal, nunca se suben a GitHub
+guia-defensa-*.md
