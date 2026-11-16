@@ -3,7 +3,7 @@
 | | |
 |---|---|
 | **Proyecto** | Diabetes Tracker App · bot "Federico" |
-| **Versión que se prueba** | rama `v2-fase1` |
+| **Versión que se prueba** | v2, rama `main` (fusionada el 16-11-2026) |
 | **Usuaria de prueba** | la usuaria experta (paciente cero, diabetes tipo 1) |
 | **Responsable** | José Antonio Pastor Rivera |
 | **Fecha** | ____ / ____ / 2026 |
@@ -47,7 +47,7 @@ Federico funciona por *polling*: el programa `bot.py` pregunta continuamente a T
 
 | ✔ | Tarea | Cómo se comprueba |
 |---|---|---|
-| ☐ | Estar en la rama correcta | `git switch v2-fase1` |
+| ☐ | Estar en la rama correcta | `git switch main` |
 | ☐ | Dependencias instaladas | `.venv/Scripts/python -m pip install -r requirements.txt` |
 | ☐ | Tests en verde | `.venv/Scripts/python -m pytest` → `24 passed` |
 | ☐ | Copia de seguridad de la BD real | Existe `backups/diabetes_tracker_v1_2026-11-05.db` |
@@ -62,7 +62,7 @@ Federico funciona por *polling*: el programa `bot.py` pregunta continuamente a T
 
 Primero se prueba en una **BD aparte**, para que los datos absurdos (glucosa 900, registros descartados...) no ensucien el historial real.
 
-En el `.env`, de forma temporal: `DB_PATH=pruebas_usuaria.db`. Después, arrancar con `.venv/Scripts/python bot.py` y comprobar que el log dice `Base de datos en versión 2`.
+Sin tocar el `.env`, arranca desde PowerShell con la BD de pruebas: `$env:DB_PATH = "pruebas_usuaria.db"; .venv\Scripts\python bot.py`. Comprueba que el log dice `Base de datos en versión 2`. La variable solo vive en esa terminal.
 
 la usuaria experta hace las acciones desde su móvil. Tú anotas el resultado. **Cronometra** las pruebas marcadas con ⏱ (desde que la usuaria experta empieza a escribir o hablar hasta que pulsa ✅).
 
@@ -109,7 +109,7 @@ la usuaria experta hace las acciones desde su móvil. Tú anotas el resultado. *
 ## 5. Ronda 2: paso a la BD real
 
 1. Para el bot (Ctrl+C).
-2. En el `.env`, borra la línea `DB_PATH=pruebas_usuaria.db`, o pon `DB_PATH=diabetes_tracker.db`.
+2. Cierra esa terminal y abre una nueva (así desaparece `DB_PATH`), o ejecuta `Remove-Item Env:DB_PATH`.
 3. Comprueba que existe la copia en `backups/`.
 4. Arranca el bot.
 
@@ -164,7 +164,7 @@ Valora del 1 (nada) al 5 (mucho):
 | Respuesta de la IA (desde que envía hasta que aparece el resumen) | < 5 s | ____ s |
 | Correcciones necesarias en P04 a P08 | 0 | ____ |
 
-**Decisión:** ☐ Fusionar `v2-fase1` en `main` ☐ Corregir fallos y repetir
+**Decisión:** ☐ Dar la fase 1 por cerrada ☐ Corregir fallos y repetir
 
 ### Incidencias
 
