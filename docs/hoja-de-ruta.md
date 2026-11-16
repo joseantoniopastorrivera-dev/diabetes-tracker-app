@@ -9,14 +9,15 @@ Estados posibles: ⬜ pendiente · 🟡 en curso · ✅ hecha.
 ---
 
 ## Fase 1 · Federico sólido · 🟡 (noviembre-diciembre de 2026)
-Rama `v2-fase1`. Objetivo: cumplir lo que la memoria ya promete, sin cambiar de canal.
+Rama `v2-fase1`, fusionada en `main` el 16-11-2026. Objetivo: cumplir lo que la memoria ya promete, sin cambiar de canal.
 - ✅ Arquitectura por capas (modelos, datos, ia, servicios y Telegram).
 - ✅ Esquema completo con migración de la BD de la v1.
 - ✅ Confirmación con botones Guardar, Corregir y Descartar.
 - ✅ `/hoy`, `/semana`, `/deshacer` y `/ayuda`.
 - ✅ Lista blanca, aviso de IA y aviso legal.
 - ✅ Tests y registro de decisiones.
-- ⬜ Prueba real con la usuaria experta (`docs/plan-pruebas-fase1.pdf`) y fusión en `main`.
+- ✅ Fusión en `main`, adelantada a la prueba para que el repositorio público muestre la v2.
+- ⬜ Prueba real con la usuaria experta (`docs/plan-pruebas-fase1.pdf` y `docs/guion-prueba-usuaria.pdf`). Hasta entonces la fase sigue en curso.
 
 ## Fase 2 · Piloto · ⬜ (1.er trimestre de 2027, de 5 a 10 usuarios)
 Objetivo: validar con usuarios reales y medir.
