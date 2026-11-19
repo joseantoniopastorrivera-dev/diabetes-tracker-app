@@ -20,10 +20,10 @@ Capas: `modelos.py` → `datos/repositorio.py` (único sitio con SQL) → `ia/` 
 
 ## Fases
 - Las fases y su estado están en `docs/hoja-de-ruta.md`.
-- Cada fase se arranca con la skill `preparar-fase` y se cierra con `plan-pruebas-fase`. Vienen del plugin `desarrollo-por-fases` del repo [claude-code-skills](https://github.com/joseantoniopastorrivera-dev/claude-code-skills), activado en `.claude/settings.json`.
+- Cada fase se arranca con la skill `prepare-phase` y se cierra con `phase-test-plan`. Vienen del plugin `phased-development` del repo privado `claude-code-skills-private` (antes `desarrollo-por-fases` del repo público), activado en `.claude/settings.json`.
 
 ## Skills de fases
-Datos que usan `preparar-fase` y `plan-pruebas-fase` en este proyecto:
+Datos que usan `prepare-phase` y `phase-test-plan` en este proyecto (las skills leen esta sección con este título):
 - Hoja de ruta: `docs/hoja-de-ruta.md`. Decisiones: `docs/decisiones.md`.
 - Rama de cada fase: `v2-faseN`.
 - Copia de seguridad antes de empezar, **sin abrir la BD**: `cp diabetes_tracker.db backups/diabetes_tracker_<AAAA-MM-DD>.db`.

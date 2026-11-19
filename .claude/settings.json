@@ -1,13 +1,13 @@
 {
   "extraKnownMarketplaces": {
-    "claude-code-skills": {
+    "claude-code-skills-private": {
       "source": {
         "source": "github",
-        "repo": "joseantoniopastorrivera-dev/claude-code-skills"
+        "repo": "joseantoniopastorrivera-dev/claude-code-skills-private"
       }
     }
   },
   "enabledPlugins": {
-    "desarrollo-por-fases@claude-code-skills": true
+    "phased-development@claude-code-skills-private": true
   }
 }
