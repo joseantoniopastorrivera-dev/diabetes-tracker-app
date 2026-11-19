@@ -4,7 +4,7 @@
 |---|---|
 | **Proyecto** | Diabetes Tracker App · bot "Federico" |
 | **Versión que se prueba** | rama `v2-fase{N}` |
-| **Usuaria de prueba** | la usuaria experta (paciente cero, diabetes tipo 1) |
+| **Usuaria de prueba** | Usuaria experta (paciente cero, diabetes tipo 1) |
 | **Responsable** | José Antonio Pastor Rivera |
 | **Fecha** | ____ / ____ / {AÑO} |
 | **Lugar** | ______________________________ |
@@ -50,7 +50,7 @@ El ordenador que ejecuta `bot.py` tiene que estar **encendido y con internet** d
 
 ## 4. Ronda 1: pruebas funcionales en una BD de pruebas
 
-En el `.env`, de forma temporal: `DB_PATH=pruebas_usuaria.db`. Arrancar y comprobar en el log `Base de datos en versión {VERSIÓN_BD}`. la usuaria experta hace las acciones y tú anotas el resultado. Cronometra las marcadas con ⏱.
+En el `.env`, de forma temporal: `DB_PATH=pruebas_usuaria.db`. Arrancar y comprobar en el log `Base de datos en versión {VERSIÓN_BD}`. La usuaria experta hace las acciones y tú anotas el resultado. Cronometra las marcadas con ⏱.
 
 {Una subsección ### 4.x por cada grupo de funciones. Tabla:}
 

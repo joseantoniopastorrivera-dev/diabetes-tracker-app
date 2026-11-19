@@ -4,7 +4,7 @@
 |---|---|
 | **Proyecto** | Diabetes Tracker App · bot "Federico" |
 | **Versión que se prueba** | v2, rama `main` (fusionada el 16-11-2026) |
-| **Usuaria de prueba** | la usuaria experta (paciente cero, diabetes tipo 1) |
+| **Usuaria de prueba** | Usuaria experta (paciente cero, diabetes tipo 1) |
 | **Responsable** | José Antonio Pastor Rivera |
 | **Fecha** | ____ / ____ / 2026 |
 | **Lugar** | ______________________________ |
@@ -64,7 +64,7 @@ Primero se prueba en una **BD aparte**, para que los datos absurdos (glucosa 900
 
 Sin tocar el `.env`, arranca desde PowerShell con la BD de pruebas: `$env:DB_PATH = "pruebas_usuaria.db"; .venv\Scripts\python bot.py`. Comprueba que el log dice `Base de datos en versión 2`. La variable solo vive en esa terminal.
 
-la usuaria experta hace las acciones desde su móvil. Tú anotas el resultado. **Cronometra** las pruebas marcadas con ⏱ (desde que la usuaria experta empieza a escribir o hablar hasta que pulsa ✅).
+La usuaria experta hace las acciones desde su móvil. Tú anotas el resultado. **Cronometra** las pruebas marcadas con ⏱ (desde que la usuaria experta empieza a escribir o hablar hasta que pulsa ✅).
 
 ### 4.1. Acceso y bienvenida
 
@@ -116,7 +116,7 @@ la usuaria experta hace las acciones desde su móvil. Tú anotas el resultado. *
 | ID | Comprobación | Resultado esperado | OK / Fallo | Notas |
 |---|---|---|---|---|
 | P19 | Log al arrancar | `Base de datos en versión 2`, sin errores | ☐ / ☐ | |
-| P20 | la usuaria experta escribe `/semana` | Aparecen los registros de la v1 de los últimos 7 días (si los hay) | ☐ / ☐ | |
+| P20 | La usuaria experta escribe `/semana` | Aparecen los registros de la v1 de los últimos 7 días (si los hay) | ☐ / ☐ | |
 | P21 | Un registro real de la usuaria experta, con ✅ | Se guarda y aparece en `/hoy` | ☐ / ☐ | |
 
 > Si P19 falla: para el bot, copia `backups/diabetes_tracker_v1_2026-11-05.db` encima de `diabetes_tracker.db` y avísame con el mensaje de error (sin datos de la usuaria experta).

@@ -83,7 +83,7 @@ cd C:\dev\diabetes-tracker-app
 
 ## 5. Frases para dictar a la usuaria experta
 
-| Caso | Qué hace la usuaria experta |
+| Caso | Qué hace la usuaria |
 |---|---|
 | P01 | Escribe `/start` |
 | P03 | Escribe `/ayuda` |
@@ -111,7 +111,7 @@ Rápida total que debe salir en `/hoy` si todo va bien: 4 (P04) + 3 (P11) = **7 
 
 No tienen resultado fijo: sirven para descubrir cómo se comporta Federico con el lenguaje real de la usuaria experta. Apunta **qué ha entendido** y si es lo que ella quería decir. Siempre en la ronda 1 (BD de pruebas).
 
-| ID | Qué hace la usuaria experta | Qué apuntar |
+| ID | Qué hace la usuaria | Qué apuntar |
 |---|---|---|
 | E01 | Escribe `me he puesto 4,5 de rápida` | ¿Entiende el decimal con coma? Valor: ____ |
 | E02 | Escribe `antes de comer tenía 110 y dos horas después 185` | ¿Qué hace con dos glucosas en un mensaje? |

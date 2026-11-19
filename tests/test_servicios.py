@@ -38,7 +38,7 @@ def servicio(repo, **datos) -> ServicioRegistros:
 
 async def test_analizar_guarda_pendiente_en_hora_de_espana(repo):
     s = servicio(repo, glucosa=120, insulina_rapida=4.0)
-    r = await s.analizar(USUARIA, "la usuaria experta", Entrada(momento=MOMENTO_UTC, texto="120 y 4 de rápida"))
+    r = await s.analizar(USUARIA, "Usuaria", Entrada(momento=MOMENTO_UTC, texto="120 y 4 de rápida"))
 
     guardado = repo.obtener(r.id)
     assert guardado.estado is Estado.PENDIENTE
