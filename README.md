@@ -22,7 +22,7 @@ Es el prototipo funcional del proyecto emprendedor *Diabetes Tracker App*.
 | [`docs/hoja-de-ruta.md`](docs/hoja-de-ruta.md) | Fases y estado de cada una |
 | [`docs/decisiones.md`](docs/decisiones.md) | Por qué se hizo cada cosa |
 
-El plan de empresa completo (mercado, competencia y marketing) se elaboró como proyecto emprendedor de IPE II: [memoria del proyecto](https://github.com/joseantoniopastorrivera-dev/itinerario-personal-para-la-empleabilidad-II/tree/main/el-emprendimiento-y-la-idea).
+El plan de empresa completo (mercado, competencia y marketing) se elaboró como proyecto emprendedor de IPE II: [memoria del proyecto](https://github.com/joseantoniopastorrivera-dev/personal-employability-pathway-ii/tree/main/el-emprendimiento-y-la-idea).
 
 ---
 
