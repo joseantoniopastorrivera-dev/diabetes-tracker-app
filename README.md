@@ -4,7 +4,25 @@ Federico es un bot de Telegram que registra el día a día de una persona con di
 
 Es el prototipo funcional del proyecto emprendedor *Diabetes Tracker App*.
 
-> Herramienta de registro y apoyo. No sustituye el criterio del equipo médico y no recomienda dosis ni tratamientos.
+> Herramienta de registro y apoyo. No sustituye el criterio de tu equipo médico. No recomienda dosis ni tratamientos.
+
+---
+
+## 💡 El proyecto: Diabetes Tracker App
+
+**«Tu diabetes, contada en 10 segundos.»** Federico es el primer paso de una app multiplataforma para quitar la **fatiga del registro**: hablas o haces una foto, la IA lo ordena y tú solo confirmas.
+
+- **Modelo *freemium*:** el registro básico es gratis para siempre. El Premium (2,99 €/mes o 24,99 €/año) añade el informe para el endocrino, el modo cuidador, la exportación y los recordatorios.
+- **Hoja de ruta:** prototipo en Telegram (2026) → piloto con 5 a 10 usuarios (1.er trimestre de 2027) → beta multiplataforma (2.º trimestre de 2027) → lanzamiento en las tiendas (2.º semestre de 2027).
+
+| Documento | Qué contiene |
+|---|---|
+| [`docs/producto.md`](docs/producto.md) | Ficha de producto, funciones gratis y Premium, requisitos de calidad y límites |
+| [`docs/modelo-de-negocio.md`](docs/modelo-de-negocio.md) | Lean Canvas, precios, margen y punto de equilibrio |
+| [`docs/hoja-de-ruta.md`](docs/hoja-de-ruta.md) | Fases y estado de cada una |
+| [`docs/decisiones.md`](docs/decisiones.md) | Por qué se hizo cada cosa |
+
+El plan de empresa completo (mercado, competencia y marketing) se elaboró como proyecto emprendedor de IPE II: [memoria del proyecto](https://github.com/joseantoniopastorrivera-dev/itinerario-personal-para-la-empleabilidad-II/tree/main/el-emprendimiento-y-la-idea).
 
 ---
 
