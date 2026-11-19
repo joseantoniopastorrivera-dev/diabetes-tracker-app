@@ -20,12 +20,16 @@ Rama `v2-fase1`, fusionada en `main` el 16-11-2026. Objetivo: cumplir lo que la 
 - ⬜ Prueba real con la usuaria experta (`docs/plan-pruebas-fase1.pdf` y `docs/guion-prueba-usuaria.pdf`). Hasta entonces la fase sigue en curso.
 
 ## Fase 2 · Piloto · ⬜ (1.er trimestre de 2027, de 5 a 10 usuarios)
-Objetivo: validar con usuarios reales y medir.
+Objetivo: validar con usuarios reales y medir. Las funciones marcadas **(Premium)** serán de pago en la fase 4; en el piloto son gratis para los participantes (ver `docs/producto.md`).
 - Alta con **consentimiento explícito** (RGPD) y `/borrarmisdatos`. Sustituye a la lista blanca fija.
-- **Resumen semanal con IA** e **informe PDF para el endocrino**, que es la propuesta de valor diferencial.
-- **Modo cuidador** (buyer persona Javier): invitar a un familiar a ver el día.
-- **Recordatorios** configurables (por ejemplo, la basal).
-- **Métricas del piloto**: segundos por registro, retención a 30 días y correcciones de la IA.
+- **Exportar mi historial** (`/exportar`, CSV): el usuario puede llevarse sus datos, además de borrarlos.
+- **Resumen semanal con IA** e **informe PDF para el endocrino** (Premium), que es la propuesta de valor diferencial.
+- **Modo cuidador** (Premium; buyer persona Javier): invitar a un familiar a ver el día.
+- **Recordatorios** configurables, por ejemplo, la basal (Premium).
+- **Métricas del piloto**, con objetivo:
+  - segundos por registro: **menos de 15 s**;
+  - retención a 30 días: **más del 40 %**;
+  - correcciones de la IA por cada 100 registros (sin objetivo fijo; sirve para decidir el modelo).
 
 ## Fase 3 · Beta multiplataforma · ⬜ (2.º trimestre de 2027)
 Objetivo: dejar de depender de Telegram como único canal.
@@ -34,3 +38,11 @@ Objetivo: dejar de depender de Telegram como único canal.
 - **Importación automática**: Health Connect / Apple Health y Nightscout / LibreView.
 - **Segundo proveedor de IA** detrás de `Extractor` (por ejemplo, Mistral o un modelo local).
 - Cifrado en reposo y despliegue en la UE.
+- Accesibilidad WCAG 2.2 AA en la app (alto contraste, texto escalable y registro por voz).
+
+## Fase 4 · Lanzamiento · ⬜ (2.º semestre de 2027)
+Objetivo: publicar en las tiendas con el modelo *freemium* (ver `docs/modelo-de-negocio.md`).
+- Publicación en **Google Play y App Store** (cuentas de desarrollador, ficha y ASO).
+- **Cobro del Premium** dentro de la app: 2,99 €/mes o 24,99 €/año. Oferta: 3 meses gratis para los usuarios del piloto.
+- Aviso legal, política de privacidad y EIPD publicados antes del lanzamiento.
+- **Métricas de negocio:** conversión a Premium del **3–5 %**; punto de equilibrio en unos **45 usuarios de pago**.
