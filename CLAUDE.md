@@ -8,7 +8,7 @@ Reglas comunes a todos mis repos (copia de mi `C:\dev\CLAUDE.md`, para que tambi
 - Cuando escribas código, explícalo línea por línea y di por qué elegiste esa forma y no otra.
 - Si ves un error de concepto o algo que no entiendo bien, dímelo aunque no te lo pregunte.
 - Responde en español.
-- No hagas commit ni push sin que te lo pida. Commits sin `Co-Authored-By` ni líneas de atribución.
+- No hagas commit ni push sin que te lo pida. Commits con `Co-Authored-By: Claude <noreply@anthropic.com>` (repo personal); en los repos de asignaturas del grado, nunca.
 - No subas binarios generados (`target/`, `*.class`, `__pycache__/`, `*.pyc`, `bin/`, `obj/`, `Library/` de Unity).
 - Nunca leas, muestres ni subas ficheros `.env`, tokens ni credenciales.
 - PDFs, .docx, .odt y .pptx son apuntes o enunciados: léelos solo si hacen falta para la tarea.
@@ -47,7 +47,7 @@ Datos que usan `prepare-phase` y `phase-test-plan` en este proyecto (las skills 
 
 ## Commits
 - Un commit por cada cambio pequeño, en español: `tipo(ámbito): descripción` (ámbitos: config, modelo, bd, ia, servicios, bot, seguridad, skills).
-- Sin `Co-Authored-By` ni líneas extra.
+- Con `Co-Authored-By: Claude <noreply@anthropic.com>` y sin otras líneas extra.
 - Solo hacer commit si `pytest` pasa.
 
 ## Privacidad (importante)

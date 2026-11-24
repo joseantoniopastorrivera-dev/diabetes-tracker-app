@@ -9,5 +9,9 @@
   },
   "enabledPlugins": {
     "phased-development@claude-code-skills-private": true
+  },
+  "attribution": {
+    "commit": "Co-Authored-By: Claude <noreply@anthropic.com>",
+    "pr": ""
   }
 }
